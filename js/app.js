@@ -13,3 +13,15 @@ class Tamagotchi {
 
 const tamagot = new Tamagotchi('Tami');
 console.log(tamagot);
+
+const $hunger = $('#hunger');
+const $sleepiness = $('#sleepiness');
+const $boredom = $('#boredom');
+const $age = $('#age');
+const $name = $('#name');
+
+$hunger.text(tamagot.hunger);
+$sleepiness.text(tamagot.sleepiness);
+$boredom.text(tamagot.boredom);
+$age.text(tamagot.age);
+$name.text(tamagot.name);
