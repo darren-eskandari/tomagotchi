@@ -1,3 +1,31 @@
+*,
+*::after,
+*::before {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    font-size: 85%;
+}
+
+body {
+    height: 30rem;
+    width: 30rem;
+    border: 3px solid black;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    border-radius: 10%;
+}
+
+.metrics div {
+    width: 70%;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
 #portrait {
-    text-align: center
+    text-align: center;
+    
 }

@@ -36,3 +36,4 @@ $('#start').on('click', () => {
     $name.text(`Name: ${tamagot.name}`);
     $('#start').attr('disabled', true);
 });
+
