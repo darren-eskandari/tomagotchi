@@ -9,4 +9,7 @@ class Tamagotchi {
         this.boredom = 1;
         this.alive = true;
     }
-}
+};
+
+const tamagot = new Tamagotchi('Tami');
+console.log(tamagot);
