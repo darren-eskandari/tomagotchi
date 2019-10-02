@@ -34,6 +34,44 @@ $('#start').on('click', () => {
     setName = prompt('Name your pet!');
     tamagot.name = setName;
     $name.text(tamagot.name);
-    $('#start').attr('disabled', true);
+    $('#start').attr('disabled', true).css('opacity', 0);
+    game.setTimer()
 });
 
+const game = {
+    time: 1,
+
+    setTimer(){
+        const interval = setInterval(() =>{
+            if(this.time === 600) {
+                $port.text('has died of old age...');
+            }
+            else if (this.time % 60 === 0) {
+                tamagot.age++;
+                $age.text(`Age: ${tamagot.age}`);
+                this.time++;
+            }
+            else if (this.time % 3 === 0) {
+                tamagot.hunger++;
+                $hunger.text(`Hunger: ${tamagot.hunger}`);
+                this.time++;
+            }
+            else if (this.time % 4 === 0) {
+                tamagot.sleepiness++;
+                $sleepiness.text(`Sleepiness: ${tamagot.sleepiness}`);
+                this.time++;
+            }
+            else if (this.time % 5 === 0) {
+                tamagot.boredom++;
+                $boredom.text(`Boredom: ${tamagot.boredom}`);
+                this.time++;
+            }
+            else {
+                this.time++;
+            }
+
+
+        }, 1000);
+    },
+
+}
