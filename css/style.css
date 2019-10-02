@@ -57,7 +57,19 @@ div {
 
 #portrait {
     text-align: center;
-    
+    position: relative;
+}
+
+.animated {
+    animation: animate 5s infinite;
+}
+
+@keyframes animate {   
+    0% {top: 0px; left: 0px;}
+    25% {top: 0px; left: 10px;}
+    50% {top: 0px; left: 0px;}
+    75% {top: 0px; left: -10px;}
+    100% {top: 0px; left: 0px;}
 }
 
 button {

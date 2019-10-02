@@ -55,7 +55,7 @@ const game = {
                 tamagot.hunger++;
                 if (tamagot.hunger >= 10){
                     tamagot.isAlive = false;
-                    $port.html('has starved to death<br><img src="images/5_rip.png">');
+                    $port.html('has starved to death<br><img src="images/5_rip.png">').removeClass('animated');
                     return    
                 } else {
                     $hunger.text(`Hunger: ${tamagot.hunger}`);
@@ -67,7 +67,7 @@ const game = {
                 tamagot.boredom++;
                 if (tamagot.boredom >= 10){
                     tamagot.isAlive = false;
-                    return $port.html('was bored to death<br><img src="images/5_rip.png">');
+                    return $port.html('was bored to death<br><img src="images/5_rip.png">').removeClass('animated');
                 }
                 else {
                     $boredom.text(`Boredom: ${tamagot.boredom}`);
@@ -80,7 +80,7 @@ const game = {
                     tamagot.sleepiness++;
                     if (tamagot.sleepiness >= 10){
                         tamagot.isAlive = false;
-                        return $port.html('has died of exhaustion<br><img src="images/5_rip.png">');
+                        return $port.html('has died of exhaustion<br><img src="images/5_rip.png">').removeClass('animated');
                     } else {
                         $sleepiness.text(`Sleepiness: ${tamagot.sleepiness}`);
                         this.time++;
@@ -129,9 +129,10 @@ const game = {
         }
     },
 
+    // aging and morphing
     aging(){
         if (tamagot.age === 0) {
-            $port.html('<img src="images/1_egg.png">');
+            $port.html('<img src="images/1_egg.png">').addClass('animated');          
         }
         else if (tamagot.age < 3) {
             $port.html('<img src="images/2_baby.png">');
@@ -142,9 +143,10 @@ const game = {
         else if (tamagot.age < 10) {
             $port.html('<img src="images/4_adult.png">');
         } else {
-            return $port.html('has died of old age...<br><img src="images/5_rip.png">');
+            return $port.html('has died of old age...<br><img src="images/5_rip.png">').removeClass('animated');
         }
     },
+
 };
 
 // button functions
@@ -153,9 +155,9 @@ $('#start').on('click', () => {
     setName = prompt('Name your pet!');
     tamagot.name = setName;
     $name.text(tamagot.name);
-    // $('#start').attr('disabled', true).css('opacity', 0);
     game.aging();
     game.setTimer();
+    // game.moving();
 });
 
 // food button
