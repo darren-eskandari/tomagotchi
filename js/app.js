@@ -9,7 +9,7 @@ class Tamagotchi {
         this.hunger = 1;
         this.sleepiness = 1;
         this.boredom = 1;
-        this.alive = true;
+        this.isAlive = true;
         this.portrait = null;
     }
 };
@@ -43,8 +43,9 @@ const game = {
 
     setTimer(){
         const interval = setInterval(() =>{
-            if(this.time === 600) {
-                $port.text('has died of old age...');
+            if(this.time >= 600) {
+                tamagot.isAlive = false;
+                return $port.text('has died of old age...');
             }
             else if (this.time % 60 === 0) {
                 tamagot.age++;
@@ -53,24 +54,40 @@ const game = {
             }
             else if (this.time % 3 === 0) {
                 tamagot.hunger++;
-                $hunger.text(`Hunger: ${tamagot.hunger}`);
-                this.time++;
+                if (tamagot.hunger >= 10){
+                    tamagot.isAlive = false;
+                    $port.text('has starved to death');
+                    return    
+                } else {
+                    $hunger.text(`Hunger: ${tamagot.hunger}`);
+                    this.time++;
+                }
             }
             else if (this.time % 4 === 0) {
                 tamagot.sleepiness++;
-                $sleepiness.text(`Sleepiness: ${tamagot.sleepiness}`);
-                this.time++;
+                if (tamagot.sleepiness >= 10){
+                    tamagot.isAlive = false;
+                    return $port.text('has died of exhaustion');
+                }
+                else {
+                    $sleepiness.text(`Sleepiness: ${tamagot.sleepiness}`);
+                    this.time++;
+                }
             }
             else if (this.time % 5 === 0) {
                 tamagot.boredom++;
-                $boredom.text(`Boredom: ${tamagot.boredom}`);
+                if (tamagot.hunger >= 10){
+                    tamagot.isAlive = false;
+                    return $port.text('is bored to death');
+                }
+                else {
+                    $boredom.text(`Boredom: ${tamagot.boredom}`);
+                    this.time++;
+                }
+            }
+            else if (tamagot.isAlive === true) {
                 this.time++;
             }
-            else {
-                this.time++;
-            }
-
-
         }, 1000);
     },
 
