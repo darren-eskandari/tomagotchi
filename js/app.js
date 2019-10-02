@@ -33,7 +33,7 @@ $age.text(`Age: ${tamagot.age}`);
 $('#start').on('click', () => {
     setName = prompt('Name your pet!');
     tamagot.name = setName;
-    $name.text(`Name: ${tamagot.name}`);
+    $name.text(tamagot.name);
     $('#start').attr('disabled', true);
 });
 
