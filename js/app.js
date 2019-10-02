@@ -43,7 +43,7 @@ const game = {
     lightOn: true,
 
     setTimer(){
-        const interval = setInterval(() => {
+        setInterval(() => {
             if(this.time >= 600) {
                 tamagot.isAlive = false;
                 return $port.text('has died of old age...');
@@ -78,7 +78,7 @@ const game = {
                     tamagot.sleepiness--;
                     $sleepiness.text(`Sleepiness: ${tamagot.sleepiness}`);
                     if (tamagot.sleepiness === 1){
-                        this.lightOn = true;
+                        this.toggleLightOn();
                     }
                     this.time++;
                 }
