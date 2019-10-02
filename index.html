@@ -9,46 +9,48 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js'></script>
 </head>
 <body>
+    <section id="containter">
+        <header>
+            <div class="metrics">
+                <div id="hunger"></div>
+                <div id="sleepiness"></div>
+                <div id="boredom"></div>
+                <div id="age"></div>
+            </div>
+        </header>
+        
+        <main>
+            <div id="name"></div>
+            <div id="portrait">
+                <p>
+                        .------.  <br>
+                        .'--------',  <br>
+                    .'------------',  <br>
+                    / \/ \/ \/ \/ \/ \/ \  <br>
+                    / \/ \/ \/ \/ \/ \/ \/ \  <br>
+                /-------------------\  <br>
+                |/ \/ \/ \/ \/ \/ \/ \/ \|  <br>
+                | - <button id="start">click to start</button> - | <br>
+                |\ /\ /\ /\ /\ /\ /\ /\ /|  <br>
+                Y----------------Y  <br>
+                    \ /\ /\ /\ /\ /\ /\ /\ /  <br>
+                    \ /\ /\ /\ /\ /\ /\ /  <br>
+                    '..'---------'..'  <br>
+                        '.._____..'  <br>
+                </p>
+            </div>
 
-    <header>
-        <div class="metrics">
-            <div id="hunger"></div>
-            <div id="sleepiness"></div>
-            <div id="boredom"></div>
-            <div id="age"></div>
-         </div>
-    </header>
-    
-    <main>
-        <div id="name"></div>
-        <div id="portrait">
-            <p>
-                      .------.  <br>
-                    .'--------',  <br>
-                  .'------------',  <br>
-                 / \/ \/ \/ \/ \/ \/ \  <br>
-                / \/ \/ \/ \/ \/ \/ \/ \  <br>
-               /-------------------\  <br>
-               |/ \/ \/ \/ \/ \/ \/ \/ \|  <br>
-               | - <button id="start">click to start</button> - | <br>
-               |\ /\ /\ /\ /\ /\ /\ /\ /|  <br>
-               Y----------------Y  <br>
-                \ /\ /\ /\ /\ /\ /\ /\ /  <br>
-                 \ /\ /\ /\ /\ /\ /\ /  <br>
-                  '..'---------'..'  <br>
-                    '.._____..'  <br>
-            </p>
-        </div>
+        </main>
+        
+        <footer>
+            <div class="actions">
+                <button id="feed">food</button>
+                <button id="lights">lights</button>
+                <button id="play">play</button>
+            </div>
+        </footer>
+    </section>
 
-    </main>
-    
-    <footer>
-        <div class="actions">
-            <button id="feed">food</button>
-            <button id="lights">lights</button>
-            <button id="play">play</button>
-        </div>
-    </footer>
 
     <script src="js/app.js"></script>
 </body>

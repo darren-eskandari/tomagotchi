@@ -1,7 +1,5 @@
-// Create a Class (JS Class, look at your notes if your forget) for your tamagotchi
 
-
-
+// classes
 class Tamagotchi {
     constructor(){
         this.name = '';
@@ -14,9 +12,11 @@ class Tamagotchi {
     }
 };
 
+// should I trigger this with pet name?
 const tamagot = new Tamagotchi();
 console.log(tamagot);
 
+// jquery elements
 const $hunger = $('#hunger');
 const $sleepiness = $('#sleepiness');
 const $boredom = $('#boredom');
@@ -29,47 +29,58 @@ $sleepiness.text(`Sleepiness: ${tamagot.sleepiness}`);
 $boredom.text(`Boredom: ${tamagot.boredom}`);
 $age.text(`Age: ${tamagot.age}`);
 
-
-$('#start').on('click', () => {
-    setName = prompt('Name your pet!');
-    tamagot.name = setName;
-    $name.text(tamagot.name);
-    $('#start').attr('disabled', true).css('opacity', 0);
-    game.setTimer()
-});
-
+// game object
 const game = {
     time: 1,
     lightOn: true,
 
+    // start of game
     setTimer(){
+        // tracking game time
         setInterval(() => {
-            if(this.time >= 600) {
+            // die of old age
+            if(tamagot.age === 10) {
                 tamagot.isAlive = false;
-                return $port.text('has died of old age...');
+                return
             }
-            else if (this.time % 60 === 0) {
+            // increase age
+            else if (this.time % 17 === 0) {
                 tamagot.age++;
                 $age.text(`Age: ${tamagot.age}`);
                 this.time++;
+                this.aging();
             }
+            // increase hunger
             else if (this.time % 3 === 0) {
                 tamagot.hunger++;
                 if (tamagot.hunger >= 10){
                     tamagot.isAlive = false;
-                    $port.text('has starved to death');
+                    $port.html('has starved to death<br><img src="images/5_rip.png">');
                     return    
                 } else {
                     $hunger.text(`Hunger: ${tamagot.hunger}`);
                     this.time++;
                 }
             }
+            // increase boredom
+            else if (this.time % 5 === 0) {
+                tamagot.boredom++;
+                if (tamagot.boredom >= 10){
+                    tamagot.isAlive = false;
+                    return $port.html('was bored to death<br><img src="images/5_rip.png">');
+                }
+                else {
+                    $boredom.text(`Boredom: ${tamagot.boredom}`);
+                    this.time++;
+                }
+            }
+            // increase/decrease sleepiness
             else if (this.time % 4 === 0) {
                 if (this.lightOn === true) {                
                     tamagot.sleepiness++;
                     if (tamagot.sleepiness >= 10){
                         tamagot.isAlive = false;
-                        return $port.text('has died of exhaustion');
+                        return $port.html('has died of exhaustion<br><img src="images/5_rip.png">');
                     } else {
                         $sleepiness.text(`Sleepiness: ${tamagot.sleepiness}`);
                         this.time++;
@@ -79,30 +90,19 @@ const game = {
                     $sleepiness.text(`Sleepiness: ${tamagot.sleepiness}`);
                     if (tamagot.sleepiness === 1){
                         this.toggleLightOn();
+                        this.time++;
                     }
                     this.time++;
                 }
-
-
-                
             }
-            else if (this.time % 5 === 0) {
-                tamagot.boredom++;
-                if (tamagot.hunger >= 10){
-                    tamagot.isAlive = false;
-                    return $port.text('is bored to death');
-                }
-                else {
-                    $boredom.text(`Boredom: ${tamagot.boredom}`);
-                    this.time++;
-                }
-            }
+            // increase time
             else if (tamagot.isAlive === true) {
                 this.time++;
             }
         }, 1000);
     },
 
+    // decrease hunger
     feedMe(){
         if (tamagot.hunger > 1 && tamagot.hunger < 10 && tamagot.isAlive === true){
             tamagot.hunger--;
@@ -110,16 +110,7 @@ const game = {
         }
     },
 
-    toggleLightOn(){
-        if (this.lightOn === true){
-            this.lightOn = false;
-            $('main').css('backgroundColor', 'lightgrey');
-        } else {
-            this.lightOn = true;
-            $('main').css('backgroundColor', 'white');
-        }
-    },
-
+    // decrease bordom
     playWithMe(){
         if (tamagot.boredom > 1 && tamagot.boredom < 10 && tamagot.isAlive === true){
             tamagot.boredom--;
@@ -127,8 +118,47 @@ const game = {
         }
     },
 
+    // toggle decrease of sleepiness
+    toggleLightOn(){
+        if (this.lightOn === true){
+            this.lightOn = false;
+            $('main').css('backgroundColor', 'dimgrey');
+        } else {
+            this.lightOn = true;
+            $('main').css('backgroundColor', 'white');
+        }
+    },
+
+    aging(){
+        if (tamagot.age === 0) {
+            $port.html('<img src="images/1_egg.png">');
+        }
+        else if (tamagot.age < 3) {
+            $port.html('<img src="images/2_baby.png">');
+        }
+        else if (tamagot.age < 6) {
+            $port.html('<img src="images/3_young.png">');
+        }
+        else if (tamagot.age < 10) {
+            $port.html('<img src="images/4_adult.png">');
+        } else {
+            return $port.html('has died of old age...<br><img src="images/5_rip.png">');
+        }
+    },
 };
 
+// button functions
+
+$('#start').on('click', () => {
+    setName = prompt('Name your pet!');
+    tamagot.name = setName;
+    $name.text(tamagot.name);
+    // $('#start').attr('disabled', true).css('opacity', 0);
+    game.aging();
+    game.setTimer();
+});
+
+// food button
 $('#feed').on('click', () => {
     if(game.lightOn === false){
         game.toggleLightOn();
@@ -136,6 +166,7 @@ $('#feed').on('click', () => {
     game.feedMe();
 });
 
+// play button
 $('#play').on('click', () => {
     if(game.lightOn === false){
         game.toggleLightOn();
@@ -143,6 +174,7 @@ $('#play').on('click', () => {
     game.playWithMe();
 });
 
+// light button
 $('#lights').on('click', () => {
     game.toggleLightOn();
 });

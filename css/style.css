@@ -17,7 +17,7 @@ header, footer {
     align-items: center;
 }
 
-body {
+section {
     height: 30rem;
     width: 30rem;
     border: 3px solid black;
@@ -28,6 +28,19 @@ body {
     margin: auto;
     margin-top: 15px;
     border-radius: 10%;
+    background: slateblue;
+}
+
+main {
+    height: 20rem;
+    width: 20rem;
+    border: 1px solid black;
+    border-radius: 4%;
+    background: white;
+}
+
+img {
+    height: 15rem;
 }
 
 .metrics, .actions {
@@ -49,4 +62,9 @@ div {
 
 button {
     margin: auto;
+    border-radius: 10%;
+}
+
+.actions button {
+    padding: 3px 10px;
 }
