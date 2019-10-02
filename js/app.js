@@ -40,7 +40,7 @@ $('#start').on('click', () => {
 
 const game = {
     time: 1,
-    light: true,
+    lightOn: true,
 
     setTimer(){
         const interval = setInterval(() => {
@@ -65,15 +65,26 @@ const game = {
                 }
             }
             else if (this.time % 4 === 0) {
-                tamagot.sleepiness++;
-                if (tamagot.sleepiness >= 10){
-                    tamagot.isAlive = false;
-                    return $port.text('has died of exhaustion');
-                }
-                else {
+                if (this.lightOn === true) {                
+                    tamagot.sleepiness++;
+                    if (tamagot.sleepiness >= 10){
+                        tamagot.isAlive = false;
+                        return $port.text('has died of exhaustion');
+                    } else {
+                        $sleepiness.text(`Sleepiness: ${tamagot.sleepiness}`);
+                        this.time++;
+                        }
+                } else if (this.lightOn !== true && tamagot.sleepiness > 1) {
+                    tamagot.sleepiness--;
                     $sleepiness.text(`Sleepiness: ${tamagot.sleepiness}`);
+                    if (tamagot.sleepiness === 1){
+                        this.lightOn = true;
+                    }
                     this.time++;
                 }
+
+
+                
             }
             else if (this.time % 5 === 0) {
                 tamagot.boredom++;
@@ -93,24 +104,24 @@ const game = {
     },
 
     feedMe(){
-        if (tamagot.hunger > 1 && tamagot.hunger < 10){
+        if (tamagot.hunger > 1 && tamagot.hunger < 10 && tamagot.isAlive === true){
             tamagot.hunger--;
             $hunger.text(`Hunger: ${tamagot.hunger}`);
         }
     },
 
-    toggleLight(){
-        if (this.light === true){
-            this.light = false;
+    toggleLightOn(){
+        if (this.lightOn === true){
+            this.lightOn = false;
             $('main').css('backgroundColor', 'lightgrey');
-        } else{
-            this.light = true;
+        } else {
+            this.lightOn = true;
             $('main').css('backgroundColor', 'white');
         }
     },
 
     playWithMe(){
-        if (tamagot.boredom > 1 && tamagot.boredom < 10){
+        if (tamagot.boredom > 1 && tamagot.boredom < 10 && tamagot.isAlive === true){
             tamagot.boredom--;
             $boredom.text(`Boredom: ${tamagot.boredom}`);
         }
@@ -119,14 +130,20 @@ const game = {
 };
 
 $('#feed').on('click', () => {
+    if(game.lightOn === false){
+        game.toggleLightOn();
+    }
     game.feedMe();
 });
 
 $('#play').on('click', () => {
+    if(game.lightOn === false){
+        game.toggleLightOn();
+    }
     game.playWithMe();
 });
 
 $('#lights').on('click', () => {
-    game.toggleLight();
+    game.toggleLightOn();
 });
 
