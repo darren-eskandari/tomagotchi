@@ -9,7 +9,7 @@ class Tamagotchi {
         this.sleepiness = 1;
         this.isAlive = true;
         this.portrait = null;
-        this.alseep = null;
+        // this.alseep = null;
     }
     
     // increasing age
@@ -168,7 +168,7 @@ const game = {
 };
 
 // button functions
-
+// start game
 $('#start').on('click', () => {
     setName = prompt('Name your pet!');
     tamagot.name = setName;
