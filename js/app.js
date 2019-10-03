@@ -5,30 +5,24 @@ class Tamagotchi {
         this.name = name;
         this.age = 0;
         this.hunger = 1;
-        this.sleepiness = 1;
         this.boredom = 1;
+        this.sleepiness = 1;
         this.isAlive = true;
         this.portrait = null;
+        this.alseep = null;
     }
     
-    // decrease hunger
-    feedMe(){
-        if (this.hunger > 1 && this.hunger < 10 && this.isAlive === true){
-            this.hunger--;
-            $hunger.text(`Hunger: ${this.hunger}`);
-        }
-    }
-
-    // decrease boredom
-    playWithMe(){
-        if (this.boredom > 1 && this.boredom < 10 && this.isAlive === true){
-            this.boredom--;
-            $boredom.text(`Boredom: ${this.boredom}`);
-        }
-    }
-
-    // aging and morphing
+    // increasing age
     aging(){
+        if (this.age < 10){
+            this.age++;
+            $age.text(`Age: ${this.age}`);
+            this.morphing();
+        }
+    }
+
+    // morphing by age
+    morphing(){
         if (this.age === 0) {
             $port.html('<img src="images/1_egg.png">').addClass('animated');          
         }
@@ -41,10 +35,66 @@ class Tamagotchi {
         else if (this.age < 10) {
             $port.html('<img src="images/4_adult.png">');
         } else {
-            return $port.html('has died of old age...<br><img src="images/5_rip.png">').removeClass('animated');
+            this.isAlive = false;
+
+            $port.html('has died of old age...<br><img src="images/5_rip.png">').removeClass('animated');
         }
     }
-};
+    
+    // increase hunger
+    hungry(){
+        this.hunger++;
+        $hunger.text(`Hunger: ${this.hunger}`);
+        if (this.hunger === 10){
+            this.isAlive = false;
+            $port.html('has starved to death<br><img src="images/5_rip.png">').removeClass('animated');
+        }
+    }
+
+    // decrease hunger
+    feedMe(){
+        if (this.hunger > 1 && this.isAlive === true){ 
+            this.hunger--;
+            $hunger.text(`Hunger: ${this.hunger}`);
+        }
+    }
+
+    // increase boredom
+    bored(){
+        this.boredom++;
+        $boredom.text(`Boredom: ${this.boredom}`);
+        if (this.boredom === 10){
+            this.isAlive = false;
+            $port.html('was bored to death<br><img src="images/5_rip.png">').removeClass('animated');
+        }
+    }
+
+    // decrease boredom
+    playWithMe(){
+        if (this.boredom > 1 && this.isAlive === true){
+            this.boredom--;
+            $boredom.text(`Boredom: ${this.boredom}`);
+        }
+    }
+
+    // increase sleepiness 
+    sleepy(){
+        this.sleepiness++;
+        $sleepiness.text(`Sleepiness: ${this.sleepiness}`);
+        if (this.sleepiness === 10){
+            this.isAlive = false;
+            $port.html('has died of exhaustion<br><img src="images/5_rip.png">').removeClass('animated');
+        }
+    }
+
+    rest(){
+        this.sleepiness--;
+        $sleepiness.text(`Sleepiness: ${this.sleepiness}`);
+        if (this.sleepiness === 1){
+            game.toggleLightOn();
+        }
+    }
+}
 
 // should I trigger this with pet name?
 const tamagot = new Tamagotchi();
@@ -69,69 +119,37 @@ const game = {
     lightOn: true,
 
     // start of game
-    setTimer(){
+    startGame(){
         // tracking game time
-        setInterval(() => {
-            // die of old age
-            if(tamagot.age === 10) {
-                tamagot.isAlive = false;
-                return
-            }
-            // increase age
-            else if (this.time % 17 === 0) {
-                tamagot.age++;
-                $age.text(`Age: ${tamagot.age}`);
-                this.time++;
-                tamagot.aging();
-            }
-            // increase hunger
-            else if (this.time % 3 === 0) {
-                tamagot.hunger++;
-                if (tamagot.hunger >= 10){
-                    tamagot.isAlive = false;
-                    $port.html('has starved to death<br><img src="images/5_rip.png">').removeClass('animated');
-                    return    
-                } else {
-                    $hunger.text(`Hunger: ${tamagot.hunger}`);
+        const interval = setInterval(() => {
+            if (tamagot.isAlive === true){
+                if (this.time % 17 === 0) {
+                    tamagot.aging();
                     this.time++;
                 }
-            }
-            // increase boredom
-            else if (this.time % 5 === 0) {
-                tamagot.boredom++;
-                if (tamagot.boredom >= 10){
-                    tamagot.isAlive = false;
-                    return $port.html('was bored to death<br><img src="images/5_rip.png">').removeClass('animated');
-                }
-                else {
-                    $boredom.text(`Boredom: ${tamagot.boredom}`);
+                else if (this.time % 7 === 0) {
+                    tamagot.bored();
                     this.time++;
                 }
-            }
-            // increase/decrease sleepiness
-            else if (this.time % 4 === 0) {
-                if (this.lightOn === true) {                
-                    tamagot.sleepiness++;
-                    if (tamagot.sleepiness >= 10){
-                        tamagot.isAlive = false;
-                        return $port.html('has died of exhaustion<br><img src="images/5_rip.png">').removeClass('animated');
-                    } else {
-                        $sleepiness.text(`Sleepiness: ${tamagot.sleepiness}`);
-                        this.time++;
-                        }
-                } else if (this.lightOn !== true && tamagot.sleepiness > 1) {
-                    tamagot.sleepiness--;
-                    $sleepiness.text(`Sleepiness: ${tamagot.sleepiness}`);
-                    if (tamagot.sleepiness === 1){
-                        this.toggleLightOn();
-                        this.time++;
+                else if (this.time % 3 === 0) {
+                    tamagot.hungry();
+                    this.time++;
+                }
+                else if (this.time % 5 === 0) {
+                    if (this.lightOn === true) {                
+                        tamagot.sleepy();
+                    }
+                    this.time++;
+                } 
+                else if (this.time % 2 === 0) {
+                    if (this.lightOn !== true && tamagot.sleepiness > 1) {
+                        tamagot.rest();
                     }
                     this.time++;
                 }
-            }
-            // increase time
-            else if (tamagot.isAlive === true) {
-                this.time++;
+                else if (tamagot.isAlive === true) {
+                    this.time++;
+                }
             }
         }, 1000);
     },
@@ -155,9 +173,8 @@ $('#start').on('click', () => {
     setName = prompt('Name your pet!');
     tamagot.name = setName;
     $name.text(tamagot.name);
-    tamagot.aging();
-    game.setTimer();
-    // game.moving();
+    tamagot.morphing();
+    game.startGame();
 });
 
 // food button
