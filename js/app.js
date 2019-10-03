@@ -1,14 +1,48 @@
 
 // classes
 class Tamagotchi {
-    constructor(){
-        this.name = '';
+    constructor(name){
+        this.name = name;
         this.age = 0;
         this.hunger = 1;
         this.sleepiness = 1;
         this.boredom = 1;
         this.isAlive = true;
         this.portrait = null;
+    }
+    
+    // decrease hunger
+    feedMe(){
+        if (this.hunger > 1 && this.hunger < 10 && this.isAlive === true){
+            this.hunger--;
+            $hunger.text(`Hunger: ${this.hunger}`);
+        }
+    }
+
+    // decrease boredom
+    playWithMe(){
+        if (this.boredom > 1 && this.boredom < 10 && this.isAlive === true){
+            this.boredom--;
+            $boredom.text(`Boredom: ${this.boredom}`);
+        }
+    }
+
+    // aging and morphing
+    aging(){
+        if (this.age === 0) {
+            $port.html('<img src="images/1_egg.png">').addClass('animated');          
+        }
+        else if (this.age < 3) {
+            $port.html('<img src="images/2_baby.png">');
+        }
+        else if (this.age < 6) {
+            $port.html('<img src="images/3_young.png">');
+        }
+        else if (this.age < 10) {
+            $port.html('<img src="images/4_adult.png">');
+        } else {
+            return $port.html('has died of old age...<br><img src="images/5_rip.png">').removeClass('animated');
+        }
     }
 };
 
@@ -48,7 +82,7 @@ const game = {
                 tamagot.age++;
                 $age.text(`Age: ${tamagot.age}`);
                 this.time++;
-                this.aging();
+                tamagot.aging();
             }
             // increase hunger
             else if (this.time % 3 === 0) {
@@ -102,23 +136,7 @@ const game = {
         }, 1000);
     },
 
-    // decrease hunger
-    feedMe(){
-        if (tamagot.hunger > 1 && tamagot.hunger < 10 && tamagot.isAlive === true){
-            tamagot.hunger--;
-            $hunger.text(`Hunger: ${tamagot.hunger}`);
-        }
-    },
-
-    // decrease bordom
-    playWithMe(){
-        if (tamagot.boredom > 1 && tamagot.boredom < 10 && tamagot.isAlive === true){
-            tamagot.boredom--;
-            $boredom.text(`Boredom: ${tamagot.boredom}`);
-        }
-    },
-
-    // toggle decrease of sleepiness
+    // toggle light to affect sleepiness
     toggleLightOn(){
         if (this.lightOn === true){
             this.lightOn = false;
@@ -126,24 +144,6 @@ const game = {
         } else {
             this.lightOn = true;
             $('main').css('backgroundColor', 'white');
-        }
-    },
-
-    // aging and morphing
-    aging(){
-        if (tamagot.age === 0) {
-            $port.html('<img src="images/1_egg.png">').addClass('animated');          
-        }
-        else if (tamagot.age < 3) {
-            $port.html('<img src="images/2_baby.png">');
-        }
-        else if (tamagot.age < 6) {
-            $port.html('<img src="images/3_young.png">');
-        }
-        else if (tamagot.age < 10) {
-            $port.html('<img src="images/4_adult.png">');
-        } else {
-            return $port.html('has died of old age...<br><img src="images/5_rip.png">').removeClass('animated');
         }
     },
 
@@ -155,7 +155,7 @@ $('#start').on('click', () => {
     setName = prompt('Name your pet!');
     tamagot.name = setName;
     $name.text(tamagot.name);
-    game.aging();
+    tamagot.aging();
     game.setTimer();
     // game.moving();
 });
@@ -165,7 +165,7 @@ $('#feed').on('click', () => {
     if(game.lightOn === false){
         game.toggleLightOn();
     }
-    game.feedMe();
+    tamagot.feedMe();
 });
 
 // play button
@@ -173,7 +173,7 @@ $('#play').on('click', () => {
     if(game.lightOn === false){
         game.toggleLightOn();
     }
-    game.playWithMe();
+    tamagot.playWithMe();
 });
 
 // light button
